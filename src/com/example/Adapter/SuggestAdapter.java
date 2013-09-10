@@ -2,7 +2,7 @@ package com.example.Adapter;
 
 
 import java.util.Arrays;
-import com.example.pic.R;
+import com.example.App.R;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;

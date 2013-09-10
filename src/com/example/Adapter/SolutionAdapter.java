@@ -1,7 +1,7 @@
 package com.example.Adapter;
 
 import java.util.Arrays;
-import com.example.pic.R;
+import com.example.App.R;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,14 +61,14 @@ public class SolutionAdapter extends BaseAdapter {
 
 	public boolean add(String w, int tagPosition) {
 		for (int i = 0; i < data.length; i++) {
-			if (count == data.length)
-				return false;
-			else if (data[i].equals(SPACE)) {
+			if (!w.equals("") && data[i].equals(SPACE)) {
 				data[i] = w;
 				count++;
 				tag[i] = tagPosition;
 
 				notifyDataSetChanged();
+				if (count == data.length)
+					return false;
 				return true;
 			}
 		}

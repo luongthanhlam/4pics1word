@@ -9,7 +9,6 @@ import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.SuggestAdapter;
 import com.example.Entity.Picture;
 import com.example.Public.JsonParse;
-import com.example.pic.R;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -161,7 +160,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 			// Lay pic chua duoc check
 			for(Picture pi : listPic){
-				if(pi.isChecked()){
+				if(!pi.isChecked()){
 					this.pic= pi;
 					size++;
 				}

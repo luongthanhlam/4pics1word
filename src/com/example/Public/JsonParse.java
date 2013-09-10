@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import com.example.Entity.Picture;
-import com.example.pic.R;
+import com.example.App.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
