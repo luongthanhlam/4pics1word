@@ -1,4 +1,4 @@
-package com.example.Entity;
+package com.example.Adapter;
 
 
 import java.util.Arrays;

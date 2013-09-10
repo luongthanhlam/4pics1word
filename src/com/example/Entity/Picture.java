@@ -1,10 +1,11 @@
 package com.example.Entity;
 
 public class Picture {
-	int id;
-	int poolId;
-	String solution;
-	String copyright;
+	private int id;
+	private int poolId;
+	private String solution;
+	private String copyright;
+	private boolean checked= false;
 	
 	
 	/**
@@ -54,5 +55,17 @@ public class Picture {
 	 */
 	public void setCopyright(String copyright) {
 		this.copyright = copyright;
+	}
+	/**
+	 * @return the checked
+	 */
+	public boolean isChecked() {
+		return checked;
+	}
+	/**
+	 * @param checked the checked to set
+	 */
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 }

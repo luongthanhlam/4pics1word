@@ -1,8 +1,10 @@
-package com.example.Entity;
+package com.example.Public;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import com.example.Entity.Picture;
 import com.example.pic.R;
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,14 +1,15 @@
-package com.example.pic;
+package com.example.App;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.example.Entity.JsonParse;
-import com.example.Entity.PicAdapter;
+import com.example.Adapter.PicAdapter;
+import com.example.Adapter.SolutionAdapter;
+import com.example.Adapter.SuggestAdapter;
 import com.example.Entity.Picture;
-import com.example.Entity.SuggestAdapter;
-import com.example.Entity.SolutionAdapter;
+import com.example.Public.JsonParse;
+import com.example.pic.R;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,14 +23,13 @@ import android.widget.Toast;
 import android.app.Activity;
 
 public class MainActivity extends Activity implements OnItemClickListener {
-	final static int MAX = 12, BONUS = 4;
+	static int MAX = 12, BONUS = 4, size= 0, poolId= 1;
 	int level = 1, coin = 0;
 	GridView gv1, gv2, gv3;
-	JsonParse jp = null;
+	JsonParse jp;
 	SolutionAdapter adtSolution; 
 	SuggestAdapter adtSuggest;
 	ArrayList<Picture> listPic;
-	ArrayList<Integer> listSolutionId = new ArrayList<Integer>();
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
 	Picture pic;
@@ -44,6 +44,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		jp = new JsonParse(this);
 		listPic = jp.getData(level);
 		pic = listPic.get(r.nextInt(listPic.size()));
+		size++;
 		init();
 	}
 
@@ -146,32 +147,26 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		// Kiem tra cau tra loi voi dap an
 		if (adtSolution.getAnswer().equals(pic.getSolution())) {
 
-			// Them picId vao danh sach
-			listSolutionId.add(pic.getId());
+			pic.setChecked(true);
 
-			// Tang level neu duyet het pic
-			if (listPic.size() == listSolutionId.size()) {
-				level++;
-				listPic = jp.getData(level);
+			// Tang poolId neu duyet het pic
+			if (listPic.size() == size) {
+				poolId++;
+				listPic = jp.getData(poolId);
 			}
 
-			// Thuong Coin
+			// Thuong Coin va tang level
 			coin += BONUS;
+			level++;
 
-			// Tao pic moi va kiem tra id trung nhau
-			boolean ok = false;
-			while (!ok) {
-				pic = listPic.get(r.nextInt(listPic.size()));
-				for (int id : listSolutionId) {
-					if (id == pic.getId()) {
-						ok = false;
-						break;
-					} else
-						ok = true;
+			// Lay pic chua duoc check
+			for(Picture pi : listPic){
+				if(pi.isChecked()){
+					this.pic= pi;
+					size++;
 				}
-				if (ok)
-					this.init();
 			}
+			this.init();
 
 		}
 	}

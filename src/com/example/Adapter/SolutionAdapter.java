@@ -1,5 +1,4 @@
-package com.example.Entity;
-
+package com.example.Adapter;
 
 import java.util.Arrays;
 import com.example.pic.R;
@@ -62,20 +61,24 @@ public class SolutionAdapter extends BaseAdapter {
 
 	public boolean add(String w, int tagPosition) {
 		for (int i = 0; i < data.length; i++) {
-			if (data[i].equals(SPACE)) {
-				data[i] = w; count++;
+			if (count == data.length)
+				return false;
+			else if (data[i].equals(SPACE)) {
+				data[i] = w;
+				count++;
 				tag[i] = tagPosition;
 
 				notifyDataSetChanged();
-				if( count == data.length) return false;
-				else return true;
+				return true;
 			}
 		}
 		return false;
 	}
 
 	public void remove(int position) {
-		data[position] = SPACE; count--;
+		tag[position] = null;
+		data[position] = SPACE;
+		count--;
 		notifyDataSetChanged();
 	}
 
