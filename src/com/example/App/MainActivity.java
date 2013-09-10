@@ -32,7 +32,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	ArrayList<Picture> listPic;
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
-	Picture pic;
+	Picture pic; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
