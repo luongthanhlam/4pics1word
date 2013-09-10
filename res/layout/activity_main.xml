@@ -1,0 +1,105 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ptn_bg_actionbar"
+        android:padding="6dp" >
+
+        <TextView
+            android:id="@+id/tvLevel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_level_small"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvCoin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_coins"
+            android:gravity="end"
+            android:text="0"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_back" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bg_activity"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <!-- DISPLAY IMAGE -->
+
+        <GridView
+            android:id="@+id/gv1"
+            android:listSelector="@android:color/transparent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp"
+            android:gravity="center"
+            android:numColumns="2"
+            android:stretchMode="columnWidth" >
+        </GridView>
+
+        <!-- DISPLAY SOLUTION -->
+
+        <GridView
+            android:id="@+id/gv2"
+            android:listSelector="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnWidth="31dp"
+            android:gravity="center"
+            android:numColumns="auto_fit"
+            android:paddingTop="30dp" >
+        </GridView>
+
+        <!-- DISPLAY SUGGEST -->
+        <GridView
+            android:id="@+id/gv3"
+            android:listSelector="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnWidth="30dp"
+            android:gravity="center"
+            android:horizontalSpacing="1dp"
+            android:numColumns="auto_fit"
+            android:paddingTop="20dp"
+            android:layout_marginBottom="0dp" >
+        </GridView>
+    </LinearLayout>
+
+</LinearLayout>

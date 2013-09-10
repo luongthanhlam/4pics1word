@@ -1,0 +1,178 @@
+package com.example.pic;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+import com.example.Entity.JsonParse;
+import com.example.Entity.PicAdapter;
+import com.example.Entity.Picture;
+import com.example.Entity.SuggestAdapter;
+import com.example.Entity.SolutionAdapter;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.app.Activity;
+
+public class MainActivity extends Activity implements OnItemClickListener {
+	final static int MAX = 12, BONUS = 4;
+	int level = 1, coin = 0;
+	GridView gv1, gv2, gv3;
+	JsonParse jp = null;
+	SolutionAdapter adtSolution; 
+	SuggestAdapter adtSuggest;
+	ArrayList<Picture> listPic;
+	ArrayList<Integer> listSolutionId = new ArrayList<Integer>();
+	Random r = new Random();
+	TextView tvLevel, tvCoin;
+	Picture pic;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Remove title bar
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		jp = new JsonParse(this);
+		listPic = jp.getData(level);
+		pic = listPic.get(r.nextInt(listPic.size()));
+		init();
+	}
+
+	private void init() {
+		setContentView(R.layout.activity_main);
+		Log.d("SOLUTION", pic.getSolution());
+
+		tvLevel = (TextView) findViewById(R.id.tvLevel);
+		tvCoin = (TextView) findViewById(R.id.tvCoin);
+		gv1 = (GridView) findViewById(R.id.gv1);
+		gv2 = (GridView) findViewById(R.id.gv2);
+		gv3 = (GridView) findViewById(R.id.gv3);
+
+		gv1.setAdapter(new PicAdapter(this, pic.getId()));
+
+		String[] Solution = pic.getSolution().split("");
+		ArrayList<String> aSolution = new ArrayList<String>(
+				Arrays.asList(Solution));
+		aSolution.remove(0);
+
+		adtSolution = new SolutionAdapter(this, aSolution.size());
+		gv2.setAdapter(adtSolution);
+
+		adtSuggest = new SuggestAdapter(this, this.convertSuggest(pic
+				.getSolution()));
+		gv3.setAdapter(adtSuggest);
+
+		gv2.setOnItemClickListener(this);
+		gv3.setOnItemClickListener(this);
+
+		// Update level va coin
+		tvLevel.setText(level + "");
+		tvCoin.setText(coin + "");
+
+	}
+
+	/**
+	 * Convert String to random char array
+	 * 
+	 * @param String
+	 * @return char[]
+	 */
+
+	private char[] convertSuggest(String convertString) {
+
+		int length = convertString.length();
+		Random r = new Random();
+
+		// Chen cac ki tu ngau nhien
+		for (int i = 0; i < MAX - length; i++) {
+			char randomChar = (char) (r.nextInt(26) + 'A');
+			convertString += randomChar;
+		}
+
+		char[] arr = convertString.toCharArray();
+
+		// Tron ngau nhien
+		for (int k = 0; k < MAX * 2; k++) {
+			int x = r.nextInt(arr.length - 1);
+			int y = r.nextInt(arr.length - 1);
+
+			char X = arr[x];
+
+			arr[x] = arr[y];
+			arr[y] = X;
+		}
+
+		return arr;
+	}
+
+	
+	@Override
+	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		switch (parent.getId()) {
+		case R.id.gv2:
+			try {
+				String tag = ((TextView) v.findViewById(R.id.tvSolution))
+						.getTag().toString();
+				adtSuggest.show(Integer.parseInt(tag));
+				adtSolution.remove(position);
+			} catch (Exception e) {
+				break;
+			}
+			break;
+
+		case R.id.gv3:
+			String text = ((TextView) v.findViewById(R.id.tvSuggest)).getText()
+					.toString();
+			if (adtSolution.add(text, position)) {
+				adtSuggest.hidden(position);
+			} else
+				this.onCheck();
+
+			break;
+		}
+
+	}
+
+	private void onCheck() {
+		// Kiem tra cau tra loi voi dap an
+		if (adtSolution.getAnswer().equals(pic.getSolution())) {
+
+			// Them picId vao danh sach
+			listSolutionId.add(pic.getId());
+
+			// Tang level neu duyet het pic
+			if (listPic.size() == listSolutionId.size()) {
+				level++;
+				listPic = jp.getData(level);
+			}
+
+			// Thuong Coin
+			coin += BONUS;
+
+			// Tao pic moi va kiem tra id trung nhau
+			boolean ok = false;
+			while (!ok) {
+				pic = listPic.get(r.nextInt(listPic.size()));
+				for (int id : listSolutionId) {
+					if (id == pic.getId()) {
+						ok = false;
+						break;
+					} else
+						ok = true;
+				}
+				if (ok)
+					this.init();
+			}
+
+		}
+	}
+}
