@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import javax.crypto.spec.IvParameterSpec;
+
 import com.example.Adapter.PicAdapter;
 import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.SuggestAdapter;
@@ -13,15 +15,18 @@ import com.example.Public.JsonParse;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.content.Intent;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity implements OnClickListener, OnItemClickListener {
 	static int MAX = 12, BONUS = 4, size= 0, poolId= 1;
 	int level = 1, coin = 0;
 	GridView gv1, gv2, gv3;
@@ -31,6 +36,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	ArrayList<Picture> listPic;
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
+	ImageView ivBack;
 	Picture pic; 
 
 	@Override
@@ -53,6 +59,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 		tvLevel = (TextView) findViewById(R.id.tvLevel);
 		tvCoin = (TextView) findViewById(R.id.tvCoin);
+		ivBack= (ImageView) findViewById(R.id.ivBack);
 		gv1 = (GridView) findViewById(R.id.gv1);
 		gv2 = (GridView) findViewById(R.id.gv2);
 		gv3 = (GridView) findViewById(R.id.gv3);
@@ -73,6 +80,9 @@ public class MainActivity extends Activity implements OnItemClickListener {
 
 		gv2.setOnItemClickListener(this);
 		gv3.setOnItemClickListener(this);
+		ivBack.setOnClickListener(this);
+		
+		
 
 		// Update level va coin
 		tvLevel.setText(level + "");
@@ -167,6 +177,15 @@ public class MainActivity extends Activity implements OnItemClickListener {
 			}
 			this.init();
 
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.ivBack:
+			startActivity(new Intent(getApplicationContext(), BootstrapActivity.class));
+			break;
 		}
 	}
 }

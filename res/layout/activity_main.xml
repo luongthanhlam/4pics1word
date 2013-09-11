@@ -75,38 +75,69 @@
             android:listSelector="@android:color/transparent"
             android:numColumns="2"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="5dp" >
-        </GridView>
+            android:verticalSpacing="5dp" />
 
         <!-- DISPLAY SOLUTION -->
 
-        <GridView
-            android:id="@+id/gv2"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:columnWidth="31dp"
-            android:gravity="center"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="auto_fit"
-            android:paddingTop="30dp" >
-        </GridView>
+            android:orientation="horizontal" >
+
+            <GridView
+                android:id="@+id/gv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnWidth="31dp"
+                android:gravity="center"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="auto_fit"
+                android:paddingTop="30dp" />
+
+            <ImageView
+                android:id="@+id/ivFacebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_facebook_new" />
+        </LinearLayout>
 
         <!-- DISPLAY SUGGEST -->
 
-        <GridView
-            android:id="@+id/gv3"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="0dp"
-            android:columnWidth="30dp"
-            android:gravity="center"
-            android:horizontalSpacing="1dp"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="auto_fit"
-            android:paddingTop="20dp" >
-        </GridView>
+            android:orientation="horizontal" >
+
+            <GridView
+                android:id="@+id/gv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="0dp"
+                android:columnWidth="30dp"
+                android:gravity="center"
+                android:horizontalSpacing="1dp"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="auto_fit"
+                android:paddingTop="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_joker_reveal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/btn_joker_remove" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

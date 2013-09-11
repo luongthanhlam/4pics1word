@@ -22,7 +22,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:text="1 Pics 4 word"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -59,7 +59,7 @@
                 android:gravity="center"
                 android:background="@drawable/btn_green"
                 android:text="PLAY"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white" />
 
@@ -72,7 +72,7 @@
                 android:layout_marginBottom="40dp"
                 android:background="@drawable/bg_level"
                 android:gravity="center"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:text="1" />

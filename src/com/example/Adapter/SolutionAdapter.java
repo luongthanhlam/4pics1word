@@ -61,14 +61,14 @@ public class SolutionAdapter extends BaseAdapter {
 
 	public boolean add(String w, int tagPosition) {
 		for (int i = 0; i < data.length; i++) {
-			if (count == data.length)
-				return false;
 			if (!w.equals("") && data[i].equals(SPACE)) {
 				data[i] = w;
 				count++;
 				tag[i] = tagPosition;
 
 				notifyDataSetChanged();
+				if (count == data.length)
+					return false;
 				return true;
 			}
 		}
