@@ -57,7 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:background="@drawable/btn_green"
+                android:background="@drawable/button"
                 android:text="PLAY"
                 android:textSize="25sp"
                 android:textStyle="bold"
