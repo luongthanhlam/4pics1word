@@ -67,7 +67,7 @@
 
         <GridView
             android:id="@+id/gv1"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -80,59 +80,57 @@
         <!-- DISPLAY SOLUTION -->
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <GridView
                 android:id="@+id/gv2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:columnWidth="31dp"
+                android:columnWidth="32dp"
                 android:gravity="center"
                 android:listSelector="@android:color/transparent"
                 android:numColumns="auto_fit"
-                android:paddingTop="30dp" />
+                android:stretchMode="none" />
 
-            <ImageView
-                android:id="@+id/ivFacebook"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/btn_facebook_new" />
         </LinearLayout>
 
         <!-- DISPLAY SUGGEST -->
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginTop="20dp" >
 
             <GridView
                 android:id="@+id/gv3"
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="0dp"
-                android:columnWidth="30dp"
+                android:columnWidth="40dp"
                 android:gravity="center"
                 android:horizontalSpacing="1dp"
                 android:listSelector="@android:color/transparent"
-                android:numColumns="auto_fit"
-                android:paddingTop="20dp" />
+                android:numColumns="6" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_weight="6"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <ImageView
+                    android:id="@+id/ivReveal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/btn_joker_reveal" />
 
                 <ImageView
+                    android:id="@+id/ivRemove"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/btn_joker_remove" />
