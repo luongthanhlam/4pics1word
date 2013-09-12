@@ -6,10 +6,12 @@ import java.util.Random;
 
 import javax.crypto.spec.IvParameterSpec;
 
+import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.PicAdapter;
 import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.SuggestAdapter;
-import com.example.Entity.Picture;
+import com.example.Entity.Solution;
+import com.example.Entity.Model;
 import com.example.Public.JsonParse;
 
 import android.os.Bundle;
@@ -26,18 +28,19 @@ import android.widget.Toast;
 import android.app.Activity;
 import android.content.Intent;
 
-public class MainActivity extends Activity implements OnClickListener, OnItemClickListener {
-	static int MAX = 12, BONUS = 4, size= 0, poolId= 1;
-	int level = 1, coin = 0;
+public class MainActivity extends Activity implements OnClickListener,
+		OnItemClickListener {
+	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
+	int level = 1, coin = 400, size = 0, poolId = 1;
 	GridView gv1, gv2, gv3;
 	JsonParse jp;
-	SolutionAdapter adtSolution; 
+	SolutionAdapter adtSolution;
 	SuggestAdapter adtSuggest;
-	ArrayList<Picture> listPic;
+	ArrayList<Model> listModel;
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
-	ImageView ivBack;
-	Picture pic; 
+	ImageView ivBack, ivReveal, ivRemove;
+	Model model;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,42 +50,42 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		jp = new JsonParse(this);
-		listPic = jp.getData(level);
-		pic = listPic.get(r.nextInt(listPic.size()));
+		listModel = jp.getData(level);
+		model = listModel.get(r.nextInt(listModel.size()));
 		size++;
 		init();
 	}
 
 	private void init() {
 		setContentView(R.layout.activity_main);
-		Log.d("SOLUTION", pic.getSolution());
+		Log.d("SOLUTION", model.getSolution());
+		Toast.makeText(getApplicationContext(), model.getSolution(),
+				Toast.LENGTH_LONG).show();
 
 		tvLevel = (TextView) findViewById(R.id.tvLevel);
 		tvCoin = (TextView) findViewById(R.id.tvCoin);
-		ivBack= (ImageView) findViewById(R.id.ivBack);
+		ivBack = (ImageView) findViewById(R.id.ivBack);
+		ivRemove = (ImageView) findViewById(R.id.ivRemove);
+		ivReveal = (ImageView) findViewById(R.id.ivReveal);
+
 		gv1 = (GridView) findViewById(R.id.gv1);
 		gv2 = (GridView) findViewById(R.id.gv2);
 		gv3 = (GridView) findViewById(R.id.gv3);
 
-		gv1.setAdapter(new PicAdapter(this, pic.getId()));
+		gv1.setAdapter(new PicAdapter(this, model.getId()));
 
-		String[] Solution = pic.getSolution().split("");
-		ArrayList<String> aSolution = new ArrayList<String>(
-				Arrays.asList(Solution));
-		aSolution.remove(0);
-
-		adtSolution = new SolutionAdapter(this, aSolution.size());
+		adtSolution = new SolutionAdapter(this, model.getSolution());
 		gv2.setAdapter(adtSolution);
 
-		adtSuggest = new SuggestAdapter(this, this.convertSuggest(pic
-				.getSolution()));
+		adtSuggest = new SuggestAdapter(this, model.getSolution());
 		gv3.setAdapter(adtSuggest);
 
 		gv2.setOnItemClickListener(this);
 		gv3.setOnItemClickListener(this);
+
 		ivBack.setOnClickListener(this);
-		
-		
+		ivRemove.setOnClickListener(this);
+		ivReveal.setOnClickListener(this);
 
 		// Update level va coin
 		tvLevel.setText(level + "");
@@ -90,41 +93,6 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 
 	}
 
-	/**
-	 * Convert String to random char array
-	 * 
-	 * @param String
-	 * @return char[]
-	 */
-
-	private char[] convertSuggest(String convertString) {
-
-		int length = convertString.length();
-		Random r = new Random();
-
-		// Chen cac ki tu ngau nhien
-		for (int i = 0; i < MAX - length; i++) {
-			char randomChar = (char) (r.nextInt(26) + 'A');
-			convertString += randomChar;
-		}
-
-		char[] arr = convertString.toCharArray();
-
-		// Tron ngau nhien
-		for (int k = 0; k < MAX * 2; k++) {
-			int x = r.nextInt(arr.length - 1);
-			int y = r.nextInt(arr.length - 1);
-
-			char X = arr[x];
-
-			arr[x] = arr[y];
-			arr[y] = X;
-		}
-
-		return arr;
-	}
-
-	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		switch (parent.getId()) {
@@ -140,52 +108,80 @@ public class MainActivity extends Activity implements OnClickListener, OnItemCli
 			break;
 
 		case R.id.gv3:
-			String text = ((TextView) v.findViewById(R.id.tvSuggest)).getText()
+			String s = ((TextView) v.findViewById(R.id.tvSuggest)).getText()
 					.toString();
-			if (adtSolution.add(text, position)) {
+			if (!adtSolution.isFull()) {
+				adtSolution.add(s.charAt(0), position);
 				adtSuggest.hidden(position);
-			} else
-				this.onCheck();
+			}
+			if (adtSolution.isFull() && adtSolution.isMatch()) { // So khop cau
+																	// tra loi
+																	// voi dap
+																	// an
+				this.prepare();
+			}
 
 			break;
 		}
 
-	}
-
-	private void onCheck() {
-		// Kiem tra cau tra loi voi dap an
-		if (adtSolution.getAnswer().equals(pic.getSolution())) {
-
-			pic.setChecked(true);
-
-			// Tang poolId neu duyet het pic
-			if (listPic.size() == size) {
-				poolId++;
-				listPic = jp.getData(poolId);
-			}
-
-			// Thuong Coin va tang level
-			coin += BONUS;
-			level++;
-
-			// Lay pic chua duoc check
-			for(Picture pi : listPic){
-				if(!pi.isChecked()){
-					this.pic= pi;
-					size++;
-				}
-			}
-			this.init();
-
-		}
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()){
+		switch (v.getId()) {
 		case R.id.ivBack:
-			startActivity(new Intent(getApplicationContext(), BootstrapActivity.class));
+			startActivity(new Intent(getApplicationContext(),
+					BootstrapActivity.class));
+			break;
+		case R.id.ivRemove:
+			if (subCoin(COIN_REMOVE)) {
+				adtSuggest.remove();
+			}
+			break;
+		case R.id.ivReveal:
+			if (subCoin(COIN_REVEAL)) {
+				char c = adtSolution.reveal();
+				adtSuggest.hidden(c);
+				if (adtSolution.isFull() && adtSolution.isMatch()) {
+					this.prepare();
+				}
+			}
 			break;
 		}
 	}
+
+	private boolean subCoin(int coin) {
+		if (this.coin < coin) {
+			return false;
+		} else {
+			this.coin -= coin;
+			tvCoin.setText(""+this.coin);
+			return true;
+		}
+	}
+
+	private void prepare() {
+		model.setChecked(true);
+		// Tang poolId neu duyet het pic
+		if (listModel.size() == size) {
+			poolId++;
+			listModel = jp.getData(poolId);
+		}
+
+		// Thuong Coin va tang level
+		coin += BONUS;
+		level++;
+
+		// Lay pic chua duoc check
+		for (Model pi : listModel) {
+			if (!pi.isChecked()) {
+				this.model = pi;
+				size++;
+				break;
+			}
+		}
+		// Reload lai toan bo layout
+		this.init();
+	}
+
 }

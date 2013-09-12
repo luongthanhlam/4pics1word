@@ -1,6 +1,6 @@
 package com.example.Entity;
 
-public class Picture {
+public class Model {
 	private int id;
 	private int poolId;
 	private String solution;

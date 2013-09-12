@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.example.Entity.Picture;
+import com.example.Entity.Model;
 import com.example.App.R;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +39,8 @@ public class JsonParse {
 		return text;
 	}
 
-	public ArrayList<Picture> getData(int pool) {
-		ArrayList<Picture> listData = new ArrayList<Picture>();
+	public ArrayList<Model> getData(int pool) {
+		ArrayList<Model> listData = new ArrayList<Model>();
 		try {
 			JSONArray ja = new JSONArray(this.getJson());
 			for (int i = 0; i < ja.length(); i++) {
@@ -53,7 +53,7 @@ public class JsonParse {
 				String copyright = c.getString(TAG_COPYRIGHT);
 
 				if (pool == poolId) {
-					Picture js = new Picture();
+					Model js = new Model();
 					js.setId(id);
 					js.setPoolId(poolId);
 					js.setSolution(solution);
