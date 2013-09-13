@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SolutionAdapter extends BaseAdapter {
 	String solution;
@@ -123,6 +124,7 @@ public class SolutionAdapter extends BaseAdapter {
 	}
 
 	public boolean isFull() {
+		//Toast.makeText(context, count+"-"+data.size(), Toast.LENGTH_SHORT).show();
 		if(data.size()== count){
 			return true;
 		}

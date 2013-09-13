@@ -3,17 +3,12 @@ package com.example.App;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
-
-import javax.crypto.spec.IvParameterSpec;
-
 import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.PicAdapter;
-import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.SuggestAdapter;
 import com.example.Entity.Solution;
 import com.example.Entity.Model;
 import com.example.Public.JsonParse;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 
 public class MainActivity extends Activity implements OnClickListener,
@@ -39,7 +35,7 @@ public class MainActivity extends Activity implements OnClickListener,
 	ArrayList<Model> listModel;
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
-	ImageView ivBack, ivReveal, ivRemove;
+	Dialog dialog;
 	Model model;
 
 	@Override
@@ -64,9 +60,6 @@ public class MainActivity extends Activity implements OnClickListener,
 
 		tvLevel = (TextView) findViewById(R.id.tvLevel);
 		tvCoin = (TextView) findViewById(R.id.tvCoin);
-		ivBack = (ImageView) findViewById(R.id.ivBack);
-		ivRemove = (ImageView) findViewById(R.id.ivRemove);
-		ivReveal = (ImageView) findViewById(R.id.ivReveal);
 
 		gv1 = (GridView) findViewById(R.id.gv1);
 		gv2 = (GridView) findViewById(R.id.gv2);
@@ -83,9 +76,9 @@ public class MainActivity extends Activity implements OnClickListener,
 		gv2.setOnItemClickListener(this);
 		gv3.setOnItemClickListener(this);
 
-		ivBack.setOnClickListener(this);
-		ivRemove.setOnClickListener(this);
-		ivReveal.setOnClickListener(this);
+		findViewById(R.id.ivBack).setOnClickListener(this);
+		findViewById(R.id.ivRemove).setOnClickListener(this);
+		findViewById(R.id.ivReveal).setOnClickListener(this);
 
 		// Update level va coin
 		tvLevel.setText(level + "");
@@ -114,12 +107,8 @@ public class MainActivity extends Activity implements OnClickListener,
 				adtSolution.add(s.charAt(0), position);
 				adtSuggest.hidden(position);
 			}
-			if (adtSolution.isFull() && adtSolution.isMatch()) { // So khop cau
-																	// tra loi
-																	// voi dap
-																	// an
-				this.prepare();
-			}
+			 
+			this.onCheck();
 
 			break;
 		}
@@ -134,33 +123,36 @@ public class MainActivity extends Activity implements OnClickListener,
 					BootstrapActivity.class));
 			break;
 		case R.id.ivRemove:
+			this.showRemoveDialog();
+			break;
+		case R.id.ivReveal:
+			this.showRevealDialog();
+			break;
+		case R.id.btnContinue:
+			dialog.dismiss();
+			this.nextModel();
+			break;
+		case R.id.bReveal:
+			dialog.dismiss();
+			if (subCoin(COIN_REVEAL)) {
+				char c = adtSolution.reveal();
+				adtSuggest.hidden(c);
+				this.onCheck();
+			}
+			break;
+		case R.id.bRemove:
+			dialog.dismiss();
 			if (subCoin(COIN_REMOVE)) {
 				adtSuggest.remove();
 			}
 			break;
-		case R.id.ivReveal:
-			if (subCoin(COIN_REVEAL)) {
-				char c = adtSolution.reveal();
-				adtSuggest.hidden(c);
-				if (adtSolution.isFull() && adtSolution.isMatch()) {
-					this.prepare();
-				}
-			}
+		case R.id.bCancel:
+			dialog.dismiss();
 			break;
 		}
 	}
 
-	private boolean subCoin(int coin) {
-		if (this.coin < coin) {
-			return false;
-		} else {
-			this.coin -= coin;
-			tvCoin.setText(""+this.coin);
-			return true;
-		}
-	}
-
-	private void prepare() {
+	private void nextModel() {
 		model.setChecked(true);
 		// Tang poolId neu duyet het pic
 		if (listModel.size() == size) {
@@ -182,6 +174,51 @@ public class MainActivity extends Activity implements OnClickListener,
 		}
 		// Reload lai toan bo layout
 		this.init();
+	}
+
+	private void onCheck() {
+		// So khop cau tra loi voi dap an
+		if (adtSolution.isFull() && adtSolution.isMatch()) {
+			this.showContinueDialog();
+		}
+	}
+
+	private boolean subCoin(int coin) {
+		if (this.coin < coin) {
+			return false;
+		} else {
+			this.coin -= coin;
+			tvCoin.setText(""+this.coin);
+			return true;
+		}
+	}
+
+
+	private void showContinueDialog() {
+		dialog= new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_continue);
+		dialog.findViewById(R.id.btnContinue).setOnClickListener(this);
+		dialog.show();
+	}
+
+	
+	private void showRevealDialog() {
+		dialog= new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_reveal);
+		dialog.findViewById(R.id.bReveal).setOnClickListener(this);
+		dialog.findViewById(R.id.bCancel).setOnClickListener(this);
+		dialog.show();
+	}
+	
+	private void showRemoveDialog() {
+		dialog= new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.dialog_remove);
+		dialog.findViewById(R.id.bRemove).setOnClickListener(this);
+		dialog.findViewById(R.id.bCancel).setOnClickListener(this);
+		dialog.show();
 	}
 
 }
