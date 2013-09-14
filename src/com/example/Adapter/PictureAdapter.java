@@ -13,11 +13,11 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-public class PicAdapter extends BaseAdapter {
+public class PictureAdapter extends BaseAdapter {
 	int[] picId = new int[4];
 	Context context;
 
-	public PicAdapter(Context context, int picId) {
+	public PictureAdapter(Context context, int picId) {
 		this.context = context;
 		this.setPicId(100);
 	}
@@ -51,9 +51,10 @@ public class PicAdapter extends BaseAdapter {
 		ImageView imageView = new ImageView(context);
 		imageView.setImageResource(picId[position]);
 		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		imageView.setLayoutParams(new GridView.LayoutParams(95, 95));
+		imageView.setLayoutParams(new GridView.LayoutParams(105, 105));
 		imageView.setBackgroundResource(R.drawable.bg_photo);
 		imageView.setPadding(10, 10, 10, 10);
+		
 		return imageView;
 	}
 

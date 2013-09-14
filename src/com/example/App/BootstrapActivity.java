@@ -1,17 +1,27 @@
 package com.example.App;
 
 
+import java.util.ArrayList;
+
+import com.example.Entity.Model;
+import com.example.Public.JsonParse;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources.Theme;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BootstrapActivity extends Activity {
+	
+	protected static ArrayList<Model> listModel;
+	int level;
 
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,8 @@ public class BootstrapActivity extends Activity {
 	}
 
 	private void init() {
+		JsonParse jp = new JsonParse(this);
+		listModel = jp.getData(1);
 		findViewById(R.id.play).setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -30,18 +42,14 @@ public class BootstrapActivity extends Activity {
 				startActivity(new Intent(getApplicationContext(), MainActivity.class));
 			}
 		});
-		
-		/*final Dialog dialog= new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-		dialog.setContentView(R.layout.dialog_custom);
-		
-		//findViewById(R.id.btnContinue).setOnClickListener(this);
-		//TextView dialogButton= (TextView) findViewById(R.id.btnContinue);
-		findViewById(R.id.btnContinue).setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-		
-		dialog.show();*/
+	}
+
+	@Override
+	protected void onStart() {
+		SharedPreferences pre= getSharedPreferences("my_data", MODE_PRIVATE);
+		level= pre.getInt("level", 1);
+		TextView tv= (TextView)findViewById(R.id.tvLevel0);
+		tv.setText(""+level);
+		super.onStart();
 	}
 }

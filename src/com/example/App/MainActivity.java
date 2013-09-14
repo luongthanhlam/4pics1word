@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import com.example.Adapter.SolutionAdapter;
-import com.example.Adapter.PicAdapter;
+import com.example.Adapter.PictureAdapter;
+import com.example.Adapter.SolutionAdapter2;
 import com.example.Adapter.SuggestAdapter;
 import com.example.Entity.Solution;
 import com.example.Entity.Model;
@@ -23,11 +24,12 @@ import android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 public class MainActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
-	int level = 1, coin = 400, size = 0, poolId = 1;
+	int level, coin, size = 0, poolId;
 	GridView gv1, gv2, gv3;
 	JsonParse jp;
 	SolutionAdapter adtSolution;
@@ -35,6 +37,7 @@ public class MainActivity extends Activity implements OnClickListener,
 	ArrayList<Model> listModel;
 	Random r = new Random();
 	TextView tvLevel, tvCoin;
+	SharedPreferences pre;
 	Dialog dialog;
 	Model model;
 
@@ -45,11 +48,9 @@ public class MainActivity extends Activity implements OnClickListener,
 		// Remove title bar
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		jp = new JsonParse(this);
-		listModel = jp.getData(level);
-		model = listModel.get(r.nextInt(listModel.size()));
+		this.listModel = BootstrapActivity.listModel;
+		model = this.listModel.get(r.nextInt(this.listModel.size()));
 		size++;
-		init();
 	}
 
 	private void init() {
@@ -65,7 +66,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		gv2 = (GridView) findViewById(R.id.gv2);
 		gv3 = (GridView) findViewById(R.id.gv3);
 
-		gv1.setAdapter(new PicAdapter(this, model.getId()));
+		gv1.setAdapter(new PictureAdapter(this, model.getId()));
 
 		adtSolution = new SolutionAdapter(this, model.getSolution());
 		gv2.setAdapter(adtSolution);
@@ -91,28 +92,28 @@ public class MainActivity extends Activity implements OnClickListener,
 		switch (parent.getId()) {
 		case R.id.gv2:
 			try {
-				String tag = ((TextView) v.findViewById(R.id.tvSolution))
-						.getTag().toString();
-				adtSuggest.show(Integer.parseInt(tag));
-				adtSolution.remove(position);
+				String tag = ((TextView) v
+						.findViewById(R.id.tvSolution)).getTag().toString();
+				if (!tag.isEmpty()) {
+					adtSuggest.show(Integer.parseInt(tag));
+					adtSolution.remove(position);
+				}
 			} catch (Exception e) {
 				break;
 			}
+
 			break;
 
 		case R.id.gv3:
 			String s = ((TextView) v.findViewById(R.id.tvSuggest)).getText()
 					.toString();
-			if (!adtSolution.isFull()) {
+			if (!adtSolution.isFull() && !s.isEmpty()) {
 				adtSolution.add(s.charAt(0), position);
 				adtSuggest.hidden(position);
 			}
-			 
 			this.onCheck();
-
 			break;
 		}
-
 	}
 
 	@Override
@@ -135,8 +136,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		case R.id.bReveal:
 			dialog.dismiss();
 			if (subCoin(COIN_REVEAL)) {
-				char c = adtSolution.reveal();
-				adtSuggest.hidden(c);
+				adtSuggest.hidden(adtSolution.reveal());
 				this.onCheck();
 			}
 			break;
@@ -178,7 +178,7 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	private void onCheck() {
 		// So khop cau tra loi voi dap an
-		if (adtSolution.isFull() && adtSolution.isMatch()) {
+		if (adtSolution.isMatch()) {
 			this.showContinueDialog();
 		}
 	}
@@ -188,32 +188,34 @@ public class MainActivity extends Activity implements OnClickListener,
 			return false;
 		} else {
 			this.coin -= coin;
-			tvCoin.setText(""+this.coin);
+			tvCoin.setText("" + this.coin);
 			return true;
 		}
 	}
 
-
 	private void showContinueDialog() {
-		dialog= new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_continue);
 		dialog.findViewById(R.id.btnContinue).setOnClickListener(this);
+		GridView gv= (GridView)dialog.findViewById(R.id.gvContinue);
+		
+		SolutionAdapter2 adt= new SolutionAdapter2(this, model.getSolution());
+		gv.setAdapter(adt);		
 		dialog.show();
 	}
 
-	
 	private void showRevealDialog() {
-		dialog= new Dialog(this);
+		dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_reveal);
 		dialog.findViewById(R.id.bReveal).setOnClickListener(this);
 		dialog.findViewById(R.id.bCancel).setOnClickListener(this);
 		dialog.show();
 	}
-	
+
 	private void showRemoveDialog() {
-		dialog= new Dialog(this);
+		dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_remove);
 		dialog.findViewById(R.id.bRemove).setOnClickListener(this);
@@ -221,4 +223,28 @@ public class MainActivity extends Activity implements OnClickListener,
 		dialog.show();
 	}
 
+
+	@Override
+	protected void onStart() {
+		SharedPreferences pre = getSharedPreferences("my_data", MODE_PRIVATE);
+		level = pre.getInt("level", 1);
+		coin = pre.getInt("coin", 400);
+		poolId = pre.getInt("poolId", 1);
+		init();
+		super.onStart();
+	}
+
+
+	@Override
+	protected void onStop() {
+		SharedPreferences pre = getSharedPreferences("my_data", MODE_PRIVATE);
+		SharedPreferences.Editor editor = pre.edit();
+
+		editor.putInt("level", level);
+		editor.putInt("coin", coin);
+		editor.putInt("poolId", poolId);
+
+		editor.commit();
+		super.onStop();
+	}
 }

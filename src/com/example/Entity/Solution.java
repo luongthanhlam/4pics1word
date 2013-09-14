@@ -4,7 +4,7 @@ public class Solution {
 	private char solution;
 	private char answer;
 	private boolean reveal = false;
-	private boolean remove = true;
+	private boolean empty = true;
 	private int tag;
 
 	/**
@@ -70,15 +70,15 @@ public class Solution {
 	/**
 	 * @return the remove
 	 */
-	public boolean isRemove() {
-		return remove;
+	public boolean isEmpty() {
+		return empty;
 	}
 
 	/**
 	 * @param remove the remove to set
 	 */
-	public void setRemove(boolean remove) {
-		this.remove = remove;
+	public void setEmpty(boolean empty) {
+		this.empty = empty;
 	}
 
 }

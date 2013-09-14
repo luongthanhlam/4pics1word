@@ -61,10 +61,10 @@ public class SolutionAdapter extends BaseAdapter {
 
 			if (data.get(position).isReveal()) {
 				tv.setText("" + data.get(position).getSolution());
-			}else if(data.get(position).isRemove()){
+			} else if (data.get(position).isEmpty()) {
 				convertView.setClickable(false);
 				return convertView;
-			}else {
+			} else {
 				tv.setText("" + data.get(position).getAnswer());
 			}
 
@@ -87,45 +87,59 @@ public class SolutionAdapter extends BaseAdapter {
 	}
 
 	public char reveal() {
-		for (int i = data.size() - 1; i >= 0; i--) {
-			Solution so= data.get(i);
-			if (!so.isReveal()) {
-				so.setReveal(true);
-				so.setAnswer(so.getSolution());
-				count++;
-				notifyDataSetChanged();
-				return so.getSolution();
+		if (!isFull()) {
+			for (int i = data.size() - 1; i >= 0; i--) {
+				Solution so = data.get(i);
+				if (so.isEmpty()) {
+					// Chen dap an dung
+					Log.d("SS", ""+so.getSolution());
+					return this.insertSolution(so);
+				}
+			}
+		} else {
+			for (Solution so : data) {
+				if (!so.isReveal()) {
+					// Thay the bang dap an dung
+					count--;
+					return this.insertSolution(so);
+				}
 			}
 		}
 		return 0;
 	}
 
+	public char insertSolution(Solution so) {
+		// Neu chua duoc goi y thi tra ve 1 ki tu dung
+		so.setReveal(true);
+		so.setEmpty(false);
+		so.setAnswer(so.getSolution());
+		count++;
+		notifyDataSetChanged();
+		return so.getSolution();
+	}
+
 	public void remove(int position) {
-		data.get(position).setRemove(true);
+		data.get(position).setEmpty(true);
 		count--;
 		notifyDataSetChanged();
 	}
-	
-	public boolean add(char c, int pos){
-		if(!isFull()){
-			for(Solution so: data){
-				if(c!= 0 && so.isRemove()){
-					so.setAnswer(c);
-					so.setTag(pos);
-					so.setRemove(false);
-					count++;
-					
-					notifyDataSetChanged();
-					return true;
-				}
+
+	public void add(char c, int pos) {
+		for (Solution so : data) {
+			if (so.isEmpty()) {
+				so.setAnswer(c);
+				so.setTag(pos);
+				so.setEmpty(false);
+				count++;
+
+				notifyDataSetChanged();
+				break;
 			}
 		}
-		return false;
 	}
 
 	public boolean isFull() {
-		//Toast.makeText(context, count+"-"+data.size(), Toast.LENGTH_SHORT).show();
-		if(data.size()== count){
+		if (data.size() == count) {
 			return true;
 		}
 		return false;
