@@ -92,8 +92,8 @@ public class MainActivity extends Activity implements OnClickListener,
 		switch (parent.getId()) {
 		case R.id.gv2:
 			try {
-				String tag = ((TextView) v
-						.findViewById(R.id.tvSolution)).getTag().toString();
+				String tag = ((TextView) v.findViewById(R.id.tvSolution))
+						.getTag().toString();
 				if (!tag.isEmpty()) {
 					adtSuggest.show(Integer.parseInt(tag));
 					adtSolution.remove(position);
@@ -136,7 +136,13 @@ public class MainActivity extends Activity implements OnClickListener,
 		case R.id.bReveal:
 			dialog.dismiss();
 			if (subCoin(COIN_REVEAL)) {
-				adtSuggest.hidden(adtSolution.reveal());
+				if(adtSolution.isFull()){
+					Solution so= adtSolution.replace();
+					adtSuggest.show(so.getTag());
+					adtSuggest.hidden(so.getSolution());
+				}else{
+					adtSuggest.hidden(adtSolution.insert());
+				}
 				this.onCheck();
 			}
 			break;
@@ -198,10 +204,10 @@ public class MainActivity extends Activity implements OnClickListener,
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_continue);
 		dialog.findViewById(R.id.btnContinue).setOnClickListener(this);
-		GridView gv= (GridView)dialog.findViewById(R.id.gvContinue);
-		
-		SolutionAdapter2 adt= new SolutionAdapter2(this, model.getSolution());
-		gv.setAdapter(adt);		
+		GridView gv = (GridView) dialog.findViewById(R.id.gvContinue);
+
+		SolutionAdapter2 adt = new SolutionAdapter2(this, model.getSolution());
+		gv.setAdapter(adt);
 		dialog.show();
 	}
 
@@ -223,17 +229,15 @@ public class MainActivity extends Activity implements OnClickListener,
 		dialog.show();
 	}
 
-
 	@Override
 	protected void onStart() {
 		SharedPreferences pre = getSharedPreferences("my_data", MODE_PRIVATE);
 		level = pre.getInt("level", 1);
-		coin = pre.getInt("coin", 400);
+		coin = pre.getInt("coin", 4000);
 		poolId = pre.getInt("poolId", 1);
 		init();
 		super.onStart();
 	}
-
 
 	@Override
 	protected void onStop() {

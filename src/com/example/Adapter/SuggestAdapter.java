@@ -82,7 +82,7 @@ public class SuggestAdapter extends BaseAdapter {
 		while(n<SUM_REMOVE){
 			for(char c: listRC)
 			for(int i=0; i<listData.length; i++){
-				if(r.nextBoolean() && listData[i]== c && n<SUM_REMOVE){
+				if(r.nextBoolean() && hidden[i]== false && listData[i]== c && n<SUM_REMOVE){
 					hidden[i]= true;
 					n++;
 					break;

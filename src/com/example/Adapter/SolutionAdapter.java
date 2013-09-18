@@ -58,18 +58,14 @@ public class SolutionAdapter extends BaseAdapter {
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.grid_solution, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.tvSolution);
-
-			if (data.get(position).isReveal()) {
-				tv.setText("" + data.get(position).getSolution());
-			} else if (data.get(position).isEmpty()) {
-				convertView.setClickable(false);
-				return convertView;
-			} else {
-				tv.setText("" + data.get(position).getAnswer());
+			Solution so= data.get(position);
+			
+			if (so.isReveal()) {
+				tv.setText("" + so.getSolution());
+			} else if (so.getAnswer()!= 0) {
+				tv.setText("" + so.getAnswer());
+				tv.setTag(so.getTag());
 			}
-
-			tv.setTag(data.get(position).getTag());
-
 			return convertView;
 		}
 	}
@@ -77,7 +73,8 @@ public class SolutionAdapter extends BaseAdapter {
 	public boolean isMatch() {
 		String str = new String();
 		for (Solution so : data) {
-			str += so.getAnswer();
+			if(so.getAnswer() != 0)
+				str += so.getAnswer();
 		}
 
 		if (str.equals(solution))
@@ -85,51 +82,47 @@ public class SolutionAdapter extends BaseAdapter {
 		else
 			return false;
 	}
-
-	public char reveal() {
-		if (!isFull()) {
-			for (int i = data.size() - 1; i >= 0; i--) {
-				Solution so = data.get(i);
-				if (so.isEmpty()) {
-					// Chen dap an dung
-					Log.d("SS", ""+so.getSolution());
-					return this.insertSolution(so);
-				}
-			}
-		} else {
-			for (Solution so : data) {
-				if (!so.isReveal()) {
-					// Thay the bang dap an dung
-					count--;
-					return this.insertSolution(so);
-				}
+	
+	public char insert(){
+		for(int i= data.size()-1; i>= 0; i--){
+			Solution so= data.get(i);
+			if(so.getAnswer()== 0){
+				so.setReveal(true);
+				so.setAnswer(so.getSolution());
+				count++;
+				
+				notifyDataSetChanged();
+				return so.getSolution();
 			}
 		}
 		return 0;
 	}
-
-	public char insertSolution(Solution so) {
-		// Neu chua duoc goi y thi tra ve 1 ki tu dung
-		so.setReveal(true);
-		so.setEmpty(false);
-		so.setAnswer(so.getSolution());
-		count++;
-		notifyDataSetChanged();
-		return so.getSolution();
+	
+	public Solution replace(){
+		for (Solution so : data){
+			if (!so.isReveal()) {
+				so.setReveal(true);
+				so.setAnswer(so.getSolution());
+				
+				notifyDataSetChanged();
+				return so;
+			}
+		}
+		return null;
 	}
 
 	public void remove(int position) {
-		data.get(position).setEmpty(true);
+		char x= 0;
+		data.get(position).setAnswer(x);
 		count--;
 		notifyDataSetChanged();
 	}
 
 	public void add(char c, int pos) {
 		for (Solution so : data) {
-			if (so.isEmpty()) {
+			if (so.getAnswer()== 0) {
 				so.setAnswer(c);
 				so.setTag(pos);
-				so.setEmpty(false);
 				count++;
 
 				notifyDataSetChanged();

@@ -4,7 +4,6 @@ public class Solution {
 	private char solution;
 	private char answer;
 	private boolean reveal = false;
-	private boolean empty = true;
 	private int tag;
 
 	/**
@@ -65,20 +64,6 @@ public class Solution {
 	 */
 	public void setTag(int tag) {
 		this.tag = tag;
-	}
-
-	/**
-	 * @return the remove
-	 */
-	public boolean isEmpty() {
-		return empty;
-	}
-
-	/**
-	 * @param remove the remove to set
-	 */
-	public void setEmpty(boolean empty) {
-		this.empty = empty;
 	}
 
 }
