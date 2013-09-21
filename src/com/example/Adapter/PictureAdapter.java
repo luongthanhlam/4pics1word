@@ -8,10 +8,12 @@ import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class PictureAdapter extends BaseAdapter {
 	int[] picId = new int[4];
@@ -46,16 +48,16 @@ public class PictureAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, final ViewGroup parent) {
 
-		ImageView imageView = new ImageView(context);
-		imageView.setImageResource(picId[position]);
-		imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		imageView.setLayoutParams(new GridView.LayoutParams(105, 105));
-		imageView.setBackgroundResource(R.drawable.bg_photo);
-		imageView.setPadding(10, 10, 10, 10);
+		convertView = LayoutInflater.from(context).inflate(R.layout.grid_image,
+				null);
+		final ImageView iv = (ImageView) convertView.findViewById(R.id.ivPhoto);
 		
-		return imageView;
+		iv.setImageResource(picId[position]);
+		iv.setPadding(10, 10, 10, 10);
+
+		return convertView;
 	}
 
 }

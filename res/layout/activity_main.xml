@@ -56,6 +56,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -82,8 +83,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <GridView
@@ -96,7 +96,6 @@
                 android:listSelector="@android:color/transparent"
                 android:numColumns="auto_fit"
                 android:stretchMode="none" />
-
         </LinearLayout>
 
         <!-- DISPLAY SUGGEST -->
@@ -104,13 +103,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" >
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
 
             <GridView
                 android:id="@+id/gv3"
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:columnWidth="40dp"
                 android:gravity="center"
                 android:horizontalSpacing="1dp"
@@ -118,20 +119,19 @@
                 android:numColumns="6" />
 
             <LinearLayout
-                android:layout_weight="6"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/ivReveal"
-                    android:layout_width="wrap_content"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/btn_joker_reveal" />
 
                 <ImageView
                     android:id="@+id/ivRemove"
-                    android:layout_width="wrap_content"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:src="@drawable/btn_joker_remove" />
             </LinearLayout>

@@ -19,12 +19,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 
 public class MainActivity extends Activity implements OnClickListener,
 		OnItemClickListener {
@@ -67,6 +70,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		gv3 = (GridView) findViewById(R.id.gv3);
 
 		gv1.setAdapter(new PictureAdapter(this, model.getId()));
+		gv1.setOnItemClickListener(this);
 
 		adtSolution = new SolutionAdapter(this, model.getSolution());
 		gv2.setAdapter(adtSolution);
@@ -90,6 +94,8 @@ public class MainActivity extends Activity implements OnClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		switch (parent.getId()) {
+		case R.id.gv1:
+			break;
 		case R.id.gv2:
 			try {
 				String tag = ((TextView) v.findViewById(R.id.tvSolution))
@@ -202,6 +208,11 @@ public class MainActivity extends Activity implements OnClickListener,
 	private void showContinueDialog() {
 		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		ColorDrawable dialogColor = new ColorDrawable( Color.BLACK);
+		dialogColor.setAlpha(180);
+		dialog.getWindow().setBackgroundDrawable(dialogColor);
+		
 		dialog.setContentView(R.layout.dialog_continue);
 		dialog.findViewById(R.id.btnContinue).setOnClickListener(this);
 		GridView gv = (GridView) dialog.findViewById(R.id.gvContinue);
