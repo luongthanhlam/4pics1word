@@ -1,6 +1,5 @@
 package com.example.Adapter;
 
-import java.util.ArrayList;
 
 import com.example.App.R;
 
@@ -54,7 +53,7 @@ public class PictureAdapter extends BaseAdapter {
 				null);
 		final ImageView iv = (ImageView) convertView.findViewById(R.id.ivPhoto);
 		
-		iv.setImageResource(picId[position]);
+		iv.setImageResource(picId[position]); 
 		iv.setPadding(10, 10, 10, 10);
 
 		return convertView;
