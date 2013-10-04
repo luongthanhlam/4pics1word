@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import com.example.Entity.Model;
 import com.example.App.R;
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,10 +15,6 @@ import android.content.Context;
 import android.util.Log;
 
 public class JsonParse {
-	static final String TAG_ID = "id";
-	static final String TAG_POOL = "poolId";
-	static final String TAG_SOLUTION = "solution";
-	static final String TAG_COPYRIGHT = "copyrights";
 	Context context;
 
 	public JsonParse(Context context) {
@@ -40,33 +38,16 @@ public class JsonParse {
 	}
 
 	public ArrayList<Model> getData(int pool) {
-		ArrayList<Model> listData = new ArrayList<Model>();
-		try {
-			JSONArray ja = new JSONArray(this.getJson());
-			for (int i = 0; i < ja.length(); i++) {
+		Gson gs= new Gson();
+		Model[] models= gs.fromJson(this.getJson(), Model[].class);
 
-				JSONObject c = ja.getJSONObject(i);
-
-				int id = c.getInt(TAG_ID);
-				int poolId = c.getInt(TAG_POOL);
-				String solution = c.getString(TAG_SOLUTION);
-				String copyright = c.getString(TAG_COPYRIGHT);
-
-				if (pool == poolId) {
-					Model js = new Model();
-					js.setId(id);
-					js.setPoolId(poolId);
-					js.setSolution(solution);
-					js.setCopyright(copyright);
-					
-					listData.add(js);
-				}
+		ArrayList<Model> listModel= new ArrayList<Model>();
+		for(Model model: models){
+			if(model.getPoolId()== pool){
+				listModel.add(model);
 			}
-		} catch (JSONException e) {
-			e.printStackTrace();
 		}
-
-		return listData;
+		return listModel;
 
 	}
 

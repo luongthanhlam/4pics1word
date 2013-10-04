@@ -1,5 +1,6 @@
 package com.example.Adapter;
 
+import java.util.ArrayList;
 
 import com.example.App.R;
 
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 public class PictureAdapter extends BaseAdapter {
@@ -45,6 +47,10 @@ public class PictureAdapter extends BaseAdapter {
 	public long getItemId(int arg0) {
 		return 0;
 	}
+	
+	public int getPicId(int position){
+		return picId[position];
+	}
 
 	@Override
 	public View getView(final int position, View convertView, final ViewGroup parent) {
@@ -53,8 +59,9 @@ public class PictureAdapter extends BaseAdapter {
 				null);
 		final ImageView iv = (ImageView) convertView.findViewById(R.id.ivPhoto);
 		
-		iv.setImageResource(picId[position]); 
+		iv.setImageResource(picId[position]);
 		iv.setPadding(10, 10, 10, 10);
+		iv.setScaleType(ScaleType.FIT_XY);
 
 		return convertView;
 	}

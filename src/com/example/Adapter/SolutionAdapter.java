@@ -1,9 +1,10 @@
 package com.example.Adapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.example.App.R;
-import com.example.Entity.Solution;
 import com.example.Entity.Solution;
 
 import android.content.Context;
@@ -14,33 +15,51 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SolutionAdapter extends BaseAdapter {
-	String solution;
 	Context context;
 	int count = 0;
-	ArrayList<Solution> data;
+	List<Solution> listSolutions= new ArrayList<Solution>();
+	String keyword;	
 
-	public SolutionAdapter(Context context, String solution) {
-		data = new ArrayList<Solution>();
+	public SolutionAdapter(Context context, String data, List<Solution> listData) {
 		this.context = context;
-		this.solution = solution;
-		for (char c : solution.toCharArray()) {
+		
+		if(listData.isEmpty()){
+			this.keyword= data;
+			this.convert(data);
+		}else{
+			this.keyword= this.convert(listData);
+			this.listSolutions= listData;
+		}
+	}
+
+	private void convert(String keyword) {
+		for(char c: keyword.toCharArray()){
+			
 			Solution so = new Solution();
 			so.setSolution(c);
-			data.add(so);
+			so.setRevealed(false);
+			listSolutions.add(so);
 		}
+	}
+	
+	private String convert(List<Solution> listData) {
+		String str= new String();
+		for(Solution so: listData){
+			str+= so.getSolution();
+		}
+		return str;
 	}
 
 	@Override
 	public int getCount() {
-		return data.size() + 1;
+		return listSolutions.size() + 1;
 	}
 
 	@Override
-	public Object getItem(int position) {
-		return data.get(position);
+	public Solution getItem(int position) {
+		return listSolutions.get(position);
 	}
 
 	@Override
@@ -58,13 +77,12 @@ public class SolutionAdapter extends BaseAdapter {
 			convertView = LayoutInflater.from(context).inflate(
 					R.layout.grid_solution, null);
 			TextView tv = (TextView) convertView.findViewById(R.id.tvSolution);
-			Solution so= data.get(position);
-			
-			if (so.isReveal()) {
-				tv.setText("" + so.getSolution());
-			} else if (so.getAnswer()!= 0) {
-				tv.setText("" + so.getAnswer());
-				tv.setTag(so.getTag());
+
+			Solution so= getItem(position);
+			if(so.isRevealed()){
+				tv.setText(""+ so.getSolution());
+			}else if(so.getAnswer() != 0){
+				tv.setText(""+ so.getAnswer());
 			}
 			return convertView;
 		}
@@ -72,36 +90,35 @@ public class SolutionAdapter extends BaseAdapter {
 
 	public boolean isMatch() {
 		String str = new String();
-		for (Solution so : data) {
+		for (Solution so : listSolutions) {
 			if(so.getAnswer() != 0)
 				str += so.getAnswer();
 		}
 
-		if (str.equals(solution))
+		if (str.equals(keyword))
 			return true;
 		else
 			return false;
 	}
-	
-	public char insert(){
-		for(int i= data.size()-1; i>= 0; i--){
-			Solution so= data.get(i);
+
+	public char autoInsert() {
+		for(Solution so: listSolutions){
 			if(so.getAnswer()== 0){
-				so.setReveal(true);
-				so.setAnswer(so.getSolution());
+				so.setRevealed(true);
+				so.setAnswer(so.getSolution());				
+
 				count++;
-				
 				notifyDataSetChanged();
 				return so.getSolution();
 			}
 		}
 		return 0;
 	}
-	
-	public Solution replace(){
-		for (Solution so : data){
-			if (!so.isReveal()) {
-				so.setReveal(true);
+
+	public Solution autoReplace() {
+		for (Solution so : listSolutions){
+			if (!so.isRevealed()) {
+				so.setRevealed(true);
 				so.setAnswer(so.getSolution());
 				
 				notifyDataSetChanged();
@@ -113,18 +130,18 @@ public class SolutionAdapter extends BaseAdapter {
 
 	public void remove(int position) {
 		char x= 0;
-		data.get(position).setAnswer(x);
+		getItem(position).setAnswer(x);
 		count--;
 		notifyDataSetChanged();
 	}
-
+	
 	public void add(char c, int pos) {
-		for (Solution so : data) {
+		for (Solution so : listSolutions) {
 			if (so.getAnswer()== 0) {
 				so.setAnswer(c);
 				so.setTag(pos);
+				
 				count++;
-
 				notifyDataSetChanged();
 				break;
 			}
@@ -132,10 +149,15 @@ public class SolutionAdapter extends BaseAdapter {
 	}
 
 	public boolean isFull() {
-		if (data.size() == count) {
+		if (listSolutions.size() == count) {
 			return true;
 		}
 		return false;
+	}
+
+
+	public List<Solution> getSolutions() {
+		return listSolutions;
 	}
 
 }

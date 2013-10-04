@@ -1,41 +1,87 @@
 package com.example.Adapter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import com.example.App.R;
+import com.example.Entity.Suggest;
+import com.example.Public.RandomString;
+
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SuggestAdapter extends BaseAdapter {
-	private static final int SUM_REMOVE = 3;
-	private static final int MAX = 12;
+	final static int MAX = 12, SUM_REMOVE = 3;
 	Random r = new Random();
+	List<Suggest> listSuggest= new ArrayList<Suggest>();
 	Context context;
-	char[] listData, listRC;
-	Boolean[] hidden;
 
-	public SuggestAdapter(Context context, String s) {
+	public SuggestAdapter(Context context, String data, List<Suggest> listData) {
 		this.context = context;
-		this.listData = this.convertSuggest(s);
-		hidden = new Boolean[listData.length];
-		Arrays.fill(hidden, Boolean.FALSE);
+
+		if (listData.isEmpty()) {
+			this.convert(data);
+		} else {
+			listSuggest = listData;
+		}
+	}
+
+	public List<Suggest> getSuggests() {
+		return listSuggest;
+	}
+
+	private void convert(String data) {
+		int length = MAX - data.length();
+		
+		//Khoi tao ki tu dung
+		for(char c: data.toCharArray()){
+			Suggest sg= new Suggest();
+			sg.setSuggest(c);
+			sg.setHidden(false);
+			sg.setMatch(true);
+			listSuggest.add(sg);
+		}
+
+		// Chen cac ki tu ngau nhien
+		for (int i = 0; i < length; i++) {
+			char randomChar = (char) (r.nextInt(26) + 'A');
+			
+			Suggest sg= new Suggest();
+			sg.setSuggest(randomChar);
+			sg.setHidden(false);
+			sg.setMatch(false);
+			listSuggest.add(sg);
+			
+			data += randomChar;
+		}
+		
+		//Tron ngau nhien
+		for(int i = 0; i < MAX * 2; i++){
+			int x= r.nextInt(MAX-1);
+			int y= r.nextInt(MAX-1);
+			
+			Suggest temp= listSuggest.get(x);
+			
+			listSuggest.set(x, listSuggest.get(y));
+			listSuggest.set(y, temp);
+		}
 	}
 
 	@Override
 	public int getCount() {
-		return listData.length;
+		return listSuggest.size();
 	}
 
 	@Override
-	public String getItem(int position) {
-		return listData[position] + "";
+	public Suggest getItem(int position) {
+		return listSuggest.get(position);
 	}
 
 	@Override
@@ -45,45 +91,58 @@ public class SuggestAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-			convertView = LayoutInflater.from(context).inflate(
-					R.layout.grid_suggest, null);
-			TextView tv = (TextView) convertView.findViewById(R.id.tvSuggest);
+		convertView = LayoutInflater.from(context).inflate(
+				R.layout.grid_suggest, null);
+		TextView tv = (TextView) convertView.findViewById(R.id.tvSuggest);
 
-			if (hidden[position]) {
-				tv.setVisibility(View.INVISIBLE);
-			} else {
-				tv.setText(this.getItem(position));
-			}
-			return convertView;
+		Suggest sg= getItem(position);
+		if (sg.isHidden()) {
+			tv.setVisibility(View.INVISIBLE);
+		} else {
+			tv.setText(sg.getSuggest() + "");
+		}
+		return convertView;
 	}
 
 	public void show(int position) {
-		hidden[position] = false;
+		getItem(position).setHidden(false);
 		notifyDataSetChanged();
 	}
 
 	public void hidden(int position) {
-		hidden[position] = true;
+		getItem(position).setHidden(true);
 		notifyDataSetChanged();
 	}
-	
+
 	public void hidden(char c) {
-		for(int i=0;i<listData.length;i++){
-			if(listData[i]== c){
-				hidden[i]= true;
+		for (Suggest su : listSuggest) {
+			if (su.getSuggest() == c) {
+				su.setHidden(true);
 				break;
 			}
 		}
 		notifyDataSetChanged();
 	}
-	
-	public void remove(){
-		int n=0;
-		while(n<SUM_REMOVE){
-			for(char c: listRC)
-			for(int i=0; i<listData.length; i++){
-				if(r.nextBoolean() && hidden[i]== false && listData[i]== c && n<SUM_REMOVE){
-					hidden[i]= true;
+
+	public boolean removable() {
+		int k = 0;
+		for (Suggest sg : listSuggest) {
+			if (sg.isMatch())
+				k++;
+		}
+		if(k>3)
+			return true;
+		else
+			return false;
+	}
+
+	public void remove() {
+		int n = 0;
+		while (n < SUM_REMOVE) {
+			for (Suggest sg : listSuggest) {
+				if (r.nextBoolean() && !sg.isHidden() && !sg.isMatch()
+						&& n < SUM_REMOVE) {
+					sg.setHidden(true);
 					n++;
 					break;
 				}
@@ -91,41 +150,5 @@ public class SuggestAdapter extends BaseAdapter {
 		}
 		notifyDataSetChanged();
 	}
-	
-	/**
-	 * Convert String to random char array
-	 * 
-	 * @param String
-	 * @return char[]
-	 */
 
-	private char[] convertSuggest(String convertString) {
-
-		int length = MAX - convertString.length();
-		listRC= new char[length];
-
-		// Chen cac ki tu ngau nhien
-		for (int i = 0; i < length; i++) {
-			char randomChar = (char) (r.nextInt(26) + 'A');
-			listRC[i] = randomChar;
-			convertString += randomChar;
-		}
-
-		char[] arr = convertString.toCharArray();
-
-		// Tron ngau nhien
-		for (int k = 0; k < MAX * 2; k++) {
-			int x = r.nextInt(arr.length - 1);
-			int y = r.nextInt(arr.length - 1);
-
-			char X = arr[x];
-
-			arr[x] = arr[y];
-			arr[y] = X;
-		}
-
-		return arr;
-	}
-
-	
 }

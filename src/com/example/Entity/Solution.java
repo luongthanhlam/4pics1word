@@ -1,10 +1,19 @@
 package com.example.Entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Solution {
-	private char solution;
-	private char answer;
-	private boolean reveal = false;
-	private int tag;
+	@SerializedName("solution")
+	public char solution;
+	
+	@SerializedName("answer")
+	public char answer;
+	
+	@SerializedName("revealed")
+	public boolean revealed = false;
+	
+	@SerializedName("tag")
+	public int tag;
 
 	/**
 	 * @return the solution
@@ -37,21 +46,6 @@ public class Solution {
 	}
 
 	/**
-	 * @return the reveal
-	 */
-	public boolean isReveal() {
-		return reveal;
-	}
-
-	/**
-	 * @param reveal
-	 *            the reveal to set
-	 */
-	public void setReveal(boolean reveal) {
-		this.reveal = reveal;
-	}
-
-	/**
 	 * @return the tag
 	 */
 	public int getTag() {
@@ -64,6 +58,14 @@ public class Solution {
 	 */
 	public void setTag(int tag) {
 		this.tag = tag;
+	}
+
+	public boolean isRevealed() {
+		return revealed;
+	}
+
+	public void setRevealed(boolean revealed) {
+		this.revealed = revealed;
 	}
 
 }

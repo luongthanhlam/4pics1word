@@ -56,7 +56,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -66,23 +65,64 @@
 
         <!-- DISPLAY IMAGE -->
 
-        <GridView
-            android:id="@+id/gv1"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:horizontalSpacing="5dp"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="2"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="5dp" />
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/rZoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#565D61"
+                android:padding="10dp"
+                android:visibility="invisible" >
+
+                <ImageView
+                    android:id="@+id/ivZoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_photo" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/ivZoom"
+                    android:layout_alignParentRight="true"
+                    android:layout_toEndOf="@id/ivZoom"
+                    android:background="@drawable/bg_slot" >
+
+                    <TextView
+                        android:id="@+id/tvCopyright"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="Google"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <GridView
+                android:id="@+id/gv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:listSelector="@android:color/transparent"
+                android:numColumns="2"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="5dp" />
+        </RelativeLayout>
 
         <!-- DISPLAY SOLUTION -->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
 
@@ -104,36 +144,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal" >
 
             <GridView
                 android:id="@+id/gv3"
-                android:layout_width="wrap_content"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:columnWidth="40dp"
+                android:columnWidth="33dp"
                 android:gravity="center"
-                android:horizontalSpacing="1dp"
+                android:verticalSpacing="2dp"
+                android:horizontalSpacing="2dp"
                 android:listSelector="@android:color/transparent"
                 android:numColumns="6" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/ivReveal"
-                    android:layout_width="35dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_joker_reveal" />
+                    android:layout_weight="1"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/btn_joker_reveal" />
 
                 <ImageView
                     android:id="@+id/ivRemove"
-                    android:layout_width="35dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/btn_joker_remove" />
+                    android:layout_weight="1"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/btn_joker_remove" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
