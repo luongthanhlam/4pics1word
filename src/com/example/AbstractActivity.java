@@ -22,6 +22,7 @@ public abstract class AbstractActivity extends Activity {
 	SharedPreferences pre;
 	Gson gson = new Gson();
 	Random r = new Random();
+	JsonParse jp;
 	protected int level, coin, poolId=1;
 	Context context;
 
@@ -35,9 +36,8 @@ public abstract class AbstractActivity extends Activity {
 		
 		Boolean isLoad= pre.getBoolean(KEY_ISLOAD, false);
 		if (isLoad== false) {			
-			JsonParse jp = new JsonParse(this);
+			jp = new JsonParse(this);
 			ArrayList<Model> listModel= jp.getData(poolId);
-			//Model model = listModel.get(r.nextInt(listModel.size() - 1));
 			String data= gson.toJson(listModel.toArray(new Model[listModel.size()]));
 			
 			SharedPreferences.Editor editor = pre.edit();

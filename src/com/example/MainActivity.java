@@ -38,10 +38,8 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		OnItemClickListener {
 
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
-	String so = "", sg = "";
 	Sound sound = new Sound();
 	GridView gv1, gv2, gv3;
-	JsonParse jp;
 	SolutionAdapter adtSolution;
 	SuggestAdapter adtSuggest;
 	PictureAdapter adtPicture;
