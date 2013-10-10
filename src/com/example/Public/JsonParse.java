@@ -50,5 +50,4 @@ public class JsonParse {
 		return listModel;
 
 	}
-
 }

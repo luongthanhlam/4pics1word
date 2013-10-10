@@ -1,8 +1,11 @@
 package com.example;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import com.example.Entity.Model;
+import com.example.Public.JsonParse;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -29,6 +32,19 @@ public abstract class AbstractActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		pre = getSharedPreferences(KEY_FILE, MODE_PRIVATE);
 		context = this;
+		
+		Boolean isLoad= pre.getBoolean(KEY_ISLOAD, false);
+		if (isLoad== false) {			
+			JsonParse jp = new JsonParse(this);
+			ArrayList<Model> listModel= jp.getData(poolId);
+			//Model model = listModel.get(r.nextInt(listModel.size() - 1));
+			String data= gson.toJson(listModel.toArray(new Model[listModel.size()]));
+			
+			SharedPreferences.Editor editor = pre.edit();
+			editor.putBoolean(KEY_ISLOAD, true);
+			editor.putString(KEY_MODELS, data);
+			editor.commit();
+		}
 	}
 	
 	void tt(String t){

@@ -3,24 +3,18 @@ package com.example.Public;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 public class Sound {
-	Context context;
 	public static boolean soundOn = true;
 
-	/**
-	 * @param context
-	 */
-	public Sound(Context context) {
-		this.context = context;
-	}
-
-	public void play(String sound) {
-		if (soundOn) {
-			int res = context.getResources().getIdentifier(sound, "raw",
-					context.getPackageName());
+	public void play(String sound, Context context) {
+		if (soundOn && context != null) {
+			int res = context.getResources().getIdentifier(sound, "raw",context.getPackageName());
 			MediaPlayer mSound = MediaPlayer.create(context, res);
 			mSound.start();
+		}else{
+			Log.d("TT", "CONTEXT ERROR");
 		}
 	}
 

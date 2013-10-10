@@ -39,7 +39,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
 	String so = "", sg = "";
-	Sound sound = new Sound(context);
+	Sound sound = new Sound();
 	GridView gv1, gv2, gv3;
 	JsonParse jp;
 	SolutionAdapter adtSolution;
@@ -50,61 +50,44 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	RelativeLayout rzoom;
 	Dialog dialog;
 	Model model;
-	List<Solution> listSolution = new ArrayList<Solution>();
+	List<Solution> listSolution=new ArrayList<Solution>();
 	List<Suggest> listSuggest = new ArrayList<Suggest>();
-	protected static List<Model> listModel= new ArrayList<Model>();
+	List<Model> listModel= new ArrayList<Model>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Boolean isLoad= pre.getBoolean(KEY_ISLOAD, false);
-		if (isLoad== false) {
-			SharedPreferences.Editor editor = pre.edit();
-			editor.putBoolean(KEY_ISLOAD, true);
-			editor.commit();
-			
-			JsonParse jp = new JsonParse(this);
-			listModel= jp.getData(poolId);
-			model = listModel.get(r.nextInt(listModel.size() - 1));
-		}
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-		// TODO Auto-generated method stub
-		level = pre.getInt(KEY_LEVEL, 1);
-		coin = pre.getInt(KEY_COIN, 4000);
-		poolId = pre.getInt(KEY_POOLID, 1);
-		
-		String keyword = pre.getString(KEY_WORD, null);
-		String so = pre.getString(KEY_SOLUTION, null);
-		String sg = pre.getString(KEY_SUGGEST, null);
-		String models = pre.getString(KEY_MODELS, null);
-
-		if (keyword != null) {
-			listSolution = Arrays.asList(gson.fromJson(so, Solution[].class));
-			listSuggest = Arrays.asList(gson.fromJson(sg, Suggest[].class));
-			listModel = Arrays.asList(gson.fromJson(models, Model[].class));
-			for (Model m : listModel) {
-				if (m.getSolution().equals(keyword)) {
-					this.model = m;
-					tt(model.toString());
-				}
-			}
-		} else {
-			SharedPreferences.Editor editor = pre.edit();
-			editor.putBoolean(KEY_ISLOAD, false);
-			editor.commit();
-			finish();
-		}
 
 		init();
 	}
 
-	private void init() {
+	protected void init() {
+		level = pre.getInt(KEY_LEVEL, 1);
+		coin = pre.getInt(KEY_COIN, 4000);
+		poolId = pre.getInt(KEY_POOLID, 1);
+		
+		String sModdel = pre.getString(KEY_MODELS, null);		
+		String keyword = pre.getString(KEY_WORD, null);
+		String so = pre.getString(KEY_SOLUTION, null);
+		String sg = pre.getString(KEY_SUGGEST, null);		
+
+		listModel.addAll(Arrays.asList(gson.fromJson(sModdel, Model[].class)));
+		model = listModel.get(r.nextInt(listModel.size() - 1));
+
+		if (keyword != null) {
+			listSolution.addAll(Arrays.asList(gson.fromJson(so, Solution[].class)));
+			listSuggest.addAll(Arrays.asList(gson.fromJson(sg, Suggest[].class)));
+			for (Model m : listModel) {
+				if (m.getSolution().equals(keyword)) {
+					this.model = m;
+				}
+			}
+		}
+
+		run();
+	}
+
+	private void run() {
 		setContentView(R.layout.activity_main);
 		Log.d("SOLUTION", model.getSolution() + "-" + poolId);
 		Toast.makeText(getApplicationContext(), model.getSolution(),
@@ -160,7 +143,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			String text = ((TextView) v.findViewById(R.id.tvSolution))
 					.getText().toString();
 			if (!text.isEmpty() && !adtSolution.isRevealed(position)) {
-				sound.play("click");
+				sound.play("click", context);
 				int tag = adtSolution.getItem(position).getTag();
 				adtSuggest.show(tag);
 				adtSolution.remove(position);
@@ -172,7 +155,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			String s = ((TextView) v.findViewById(R.id.tvSuggest)).getText()
 					.toString();
 			if (!adtSolution.isFull() && !s.isEmpty()) {
-				sound.play("click");
+				sound.play("click", context);
 				adtSolution.add(s.charAt(0), position);
 				adtSuggest.hidden(position);
 			}
@@ -183,7 +166,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		sound.play("click");
+		sound.play("click", context);
 		switch (v.getId()) {
 		case R.id.ivZoom:
 			gv1.setVisibility(View.VISIBLE);
@@ -238,8 +221,6 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			poolId++;
 			listModel = jp.getData(poolId);
 		} else if (listModel.contains(model)) {
-			// Xoa model cu
-			tt(listModel.size() + "T" + model.toString());
 			listModel.remove(model);
 			listSolution.clear();
 			listSuggest.clear();
@@ -249,7 +230,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		model = listModel.get(r.nextInt(listModel.size() - 1));
 
 		// Reload lai toan bo layout
-		init();
+		run();
 	}
 
 	private void onCheck() {
@@ -270,7 +251,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	}
 
 	private void showContinueDialog() {
-		sound.play("success_coins");
+		sound.play("success_coins", context);
 		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -323,8 +304,6 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			editor.putString(KEY_SUGGEST, sg);
 			editor.putString(KEY_WORD, model.getSolution());
 			editor.putString(KEY_MODELS, models);
-
-			listModel = new ArrayList<Model>();
 			editor.commit();
 		}
 		super.onStop();
