@@ -1,11 +1,8 @@
 package com.example;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
-import com.example.Entity.Model;
-import com.example.Public.JsonParse;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -21,8 +18,8 @@ public abstract class AbstractActivity extends Activity {
 			KEY_ISLOAD="isLoad", KEY_POOLID = "poolId", KEY_SOLUTION = "solution";
 	SharedPreferences pre;
 	Gson gson = new Gson();
+	Random r = new Random();
 	protected int level, coin, poolId=1;
-	protected static List<Model> listModel= new ArrayList<Model>();
 	Context context;
 
 	@Override
@@ -32,21 +29,6 @@ public abstract class AbstractActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		pre = getSharedPreferences(KEY_FILE, MODE_PRIVATE);
 		context = this;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		
-		Boolean isLoad= pre.getBoolean(KEY_ISLOAD, false);
-		if (isLoad== false) {
-			SharedPreferences.Editor editor = pre.edit();
-			editor.putBoolean(KEY_ISLOAD, true);
-			editor.commit();
-			
-			JsonParse jp = new JsonParse(this);
-			listModel= jp.getData(poolId);
-		}
 	}
 	
 	void tt(String t){

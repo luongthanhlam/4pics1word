@@ -18,20 +18,22 @@ import android.widget.TextView;
 
 public class SolutionAdapter extends BaseAdapter {
 	Context context;
-	int count = 0;
 	List<Solution> listSolutions= new ArrayList<Solution>();
 	String keyword;	
 
 	public SolutionAdapter(Context context, String data, List<Solution> listData) {
 		this.context = context;
+		this.keyword= data;
 		
 		if(listData.isEmpty()){
-			this.keyword= data;
 			this.convert(data);
 		}else{
-			this.keyword= this.convert(listData);
 			this.listSolutions= listData;
 		}
+	}
+	
+	public List<Solution> getSolutions() {
+		return listSolutions;
 	}
 
 	private void convert(String keyword) {
@@ -44,13 +46,6 @@ public class SolutionAdapter extends BaseAdapter {
 		}
 	}
 	
-	private String convert(List<Solution> listData) {
-		String str= new String();
-		for(Solution so: listData){
-			str+= so.getSolution();
-		}
-		return str;
-	}
 
 	@Override
 	public int getCount() {
@@ -81,7 +76,9 @@ public class SolutionAdapter extends BaseAdapter {
 			Solution so= getItem(position);
 			if(so.isRevealed()){
 				tv.setText(""+ so.getSolution());
-			}else if(so.getAnswer() != 0){
+			}else if(so.getAnswer() == 0){
+				tv.setText("");
+			}else{
 				tv.setText(""+ so.getAnswer());
 			}
 			return convertView;
@@ -107,7 +104,6 @@ public class SolutionAdapter extends BaseAdapter {
 				so.setRevealed(true);
 				so.setAnswer(so.getSolution());				
 
-				count++;
 				notifyDataSetChanged();
 				return so.getSolution();
 			}
@@ -131,7 +127,6 @@ public class SolutionAdapter extends BaseAdapter {
 	public void remove(int position) {
 		char x= 0;
 		getItem(position).setAnswer(x);
-		count--;
 		notifyDataSetChanged();
 	}
 	
@@ -141,7 +136,6 @@ public class SolutionAdapter extends BaseAdapter {
 				so.setAnswer(c);
 				so.setTag(pos);
 				
-				count++;
 				notifyDataSetChanged();
 				break;
 			}
@@ -149,15 +143,17 @@ public class SolutionAdapter extends BaseAdapter {
 	}
 
 	public boolean isFull() {
-		if (listSolutions.size() == count) {
-			return true;
+		for(Solution so:listSolutions){
+			if(so.getAnswer()== 0 && !so.isRevealed()){
+				return false;
+			}
 		}
-		return false;
+		
+		return true;
 	}
 
-
-	public List<Solution> getSolutions() {
-		return listSolutions;
+	public boolean isRevealed(int position){
+		return getItem(position).isRevealed();
 	}
 
 }

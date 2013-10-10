@@ -2,7 +2,6 @@ package com.example;
 
 
 import com.example.App.R;
-import com.example.Public.JsonParse;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +26,8 @@ public class BootstrapActivity extends AbstractActivity{
 				startActivity(new Intent(getApplicationContext(), MainActivity.class));
 			}
 		});
+		
+		
 	}
 
 	@Override
