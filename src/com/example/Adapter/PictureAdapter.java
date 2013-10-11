@@ -1,20 +1,15 @@
 package com.example.Adapter;
 
-import java.util.ArrayList;
-
 import com.example.App.R;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 
 public class PictureAdapter extends BaseAdapter {
 	int[] picId = new int[4];
@@ -22,7 +17,7 @@ public class PictureAdapter extends BaseAdapter {
 
 	public PictureAdapter(Context context, int picId) {
 		this.context = context;
-		this.setPicId(100);
+		this.setPicId(picId);
 	}
 
 	private void setPicId(int id0) {
