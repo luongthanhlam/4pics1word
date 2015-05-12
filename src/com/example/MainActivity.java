@@ -39,6 +39,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		OnItemClickListener {
 
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
+	final static boolean AllowToast = false;
 	Sound sound = new Sound();
 	GridView gv1, gv2, gv3;
 	SolutionAdapter adtSolution;
@@ -91,8 +92,10 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	private void run() {
 		setContentView(R.layout.activity_main);
 		Log.d("SOLUTION", model.getSolution() + "-" + poolId);
-		Toast.makeText(getApplicationContext(), model.getSolution(),
-				Toast.LENGTH_LONG).show();
+		if (AllowToast) {
+			Toast.makeText(getApplicationContext(), model.getSolution(),
+					Toast.LENGTH_SHORT).show();
+		}
 
 		tvLevel = (TextView) findViewById(R.id.tvLevel);
 		tvCoin = (TextView) findViewById(R.id.tvCoin);
@@ -144,7 +147,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			String text = ((TextView) v.findViewById(R.id.tvSolution))
 					.getText().toString();
 			if (!text.isEmpty() && !adtSolution.isRevealed(position)) {
-				sound.play("click", context);
+				sound.play("no", context);
 				int tag = adtSolution.getItem(position).getTag();
 				adtSuggest.show(tag);
 				adtSolution.remove(position);
