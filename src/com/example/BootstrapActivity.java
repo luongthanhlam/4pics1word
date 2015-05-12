@@ -2,6 +2,7 @@ package com.example;
 
 
 import com.example.App.R;
+import com.example.Public.Sound;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 public class BootstrapActivity extends AbstractActivity{
+	Sound sound = new Sound();
 
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class BootstrapActivity extends AbstractActivity{
 
 	@Override
 	protected void onStart() {
+		sound.play("bgm", this);
 		level = pre.getInt(KEY_LEVEL, 1);
 		
 		TextView tv= (TextView)findViewById(R.id.tvLevel0);

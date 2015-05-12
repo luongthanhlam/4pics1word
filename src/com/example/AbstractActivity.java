@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.example.Entity.Model;
 import com.example.Public.JsonParse;
+import com.example.Public.Sound;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -25,6 +26,7 @@ public abstract class AbstractActivity extends Activity {
 	JsonParse jp;
 	protected int level, coin, poolId=1;
 	Context context;
+	Sound sound = new Sound();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

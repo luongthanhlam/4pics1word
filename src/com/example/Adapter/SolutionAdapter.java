@@ -67,6 +67,7 @@ public class SolutionAdapter extends BaseAdapter {
 		if (getCount() - 1 == position) {
 			ImageView iv = new ImageView(context);
 			iv.setBackgroundResource(R.drawable.btn_facebook_new);
+			iv.setClickable(false);
 			return iv;
 		} else {
 			convertView = LayoutInflater.from(context).inflate(

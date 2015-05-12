@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+
 import com.example.Adapter.SolutionAdapter;
 import com.example.Adapter.PictureAdapter;
 import com.example.Adapter.SolutionAdapter2;
@@ -48,9 +49,9 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	RelativeLayout rzoom;
 	Dialog dialog;
 	Model model;
-	List<Solution> listSolution=new ArrayList<Solution>();
+	List<Solution> listSolution = new ArrayList<Solution>();
 	List<Suggest> listSuggest = new ArrayList<Suggest>();
-	List<Model> listModel= new ArrayList<Model>();
+	List<Model> listModel = new ArrayList<Model>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,18 +64,20 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		level = pre.getInt(KEY_LEVEL, 1);
 		coin = pre.getInt(KEY_COIN, 4000);
 		poolId = pre.getInt(KEY_POOLID, 1);
-		
-		String sModdel = pre.getString(KEY_MODELS, null);		
+
+		String sModdel = pre.getString(KEY_MODELS, null);
 		String keyword = pre.getString(KEY_WORD, null);
 		String so = pre.getString(KEY_SOLUTION, null);
-		String sg = pre.getString(KEY_SUGGEST, null);		
+		String sg = pre.getString(KEY_SUGGEST, null);
 
 		listModel.addAll(Arrays.asList(gson.fromJson(sModdel, Model[].class)));
 		model = listModel.get(r.nextInt(listModel.size() - 1));
 
 		if (keyword != null) {
-			listSolution.addAll(Arrays.asList(gson.fromJson(so, Solution[].class)));
-			listSuggest.addAll(Arrays.asList(gson.fromJson(sg, Suggest[].class)));
+			listSolution.addAll(Arrays.asList(gson.fromJson(so,
+					Solution[].class)));
+			listSuggest
+					.addAll(Arrays.asList(gson.fromJson(sg, Suggest[].class)));
 			for (Model m : listModel) {
 				if (m.getSolution().equals(keyword)) {
 					this.model = m;
@@ -249,7 +252,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	}
 
 	private void showContinueDialog() {
-		sound.play("success_coins", context);
+		sound.play("applause", context);
 		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -262,7 +265,16 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		GridView gv = (GridView) dialog.findViewById(R.id.gvContinue);
 
 		SolutionAdapter2 adt = new SolutionAdapter2(this, model.getSolution());
-		gv.setAdapter(adt);
+		// gv.setAdapter(adt);
+		gv.setVisibility(View.INVISIBLE);
+
+		TextView tv = (TextView) dialog.findViewById(R.id.tvResult);
+		String[] kw = model.getSolution().split("");
+		String keyword = "";
+		for (String c : kw) {
+			keyword += c + " ";
+		}
+		tv.setText(keyword);
 		dialog.show();
 	}
 
@@ -286,6 +298,17 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 
 	@Override
 	protected void onStop() {
+		saveAll();
+		super.onStop();
+	}
+
+	@Override
+	protected void onPause() {
+		saveAll();
+		super.onPause();
+	}
+
+	void saveAll() {
 		String so = gson.toJson(adtSolution.getSolutions());
 		String sg = gson.toJson(adtSuggest.getSuggests());
 		String models = gson.toJson(listModel.toArray(new Model[listModel
@@ -304,7 +327,6 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 			editor.putString(KEY_MODELS, models);
 			editor.commit();
 		}
-		super.onStop();
 	}
 
 }
