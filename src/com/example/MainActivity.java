@@ -39,7 +39,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		OnItemClickListener {
 
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
-	final static boolean AllowToast = true;
+	final static boolean DEV = false;
 	Sound sound = new Sound();
 	GridView gv1, gv2, gv3;
 	SolutionAdapter adtSolution;
@@ -93,7 +93,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	private void run() {
 		setContentView(R.layout.activity_main);
 		Log.d("SOLUTION", model.getSolution() + "-" + poolId);
-		if (AllowToast) {
+		if (DEV) {
 			Toast.makeText(getApplicationContext(), model.getSolution(),
 					Toast.LENGTH_SHORT).show();
 		}
@@ -284,7 +284,10 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	}
 
 	private void showRevealDialog() {
-		dialog = new Dialog(this);
+		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+		ColorDrawable dialogColor = new ColorDrawable(Color.BLACK);
+		dialogColor.setAlpha(45);
+		dialog.getWindow().setBackgroundDrawable(dialogColor);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_reveal);
 		dialog.findViewById(R.id.bReveal).setOnClickListener(this);
@@ -293,7 +296,10 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 	}
 
 	private void showRemoveDialog() {
-		dialog = new Dialog(this);
+		dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
+		ColorDrawable dialogColor = new ColorDrawable(Color.BLACK);
+		dialogColor.setAlpha(1);
+		dialog.getWindow().setBackgroundDrawable(dialogColor);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_remove);
 		dialog.findViewById(R.id.bRemove).setOnClickListener(this);

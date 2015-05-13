@@ -4,29 +4,39 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show a correct letter (60 coin)"
-        android:textSize="20sp"
-        android:textColor="@android:color/white"
-        android:padding="8dp" />
-
     <LinearLayout
-        android:padding="5dp"
-        android:background="#959895"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_marginTop="200dp"
+        android:alpha="0.8"
+        android:background="@android:color/black" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="Show a correct letter (60 coin)"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#959895"
+        android:orientation="horizontal"
+        android:padding="5dp" >
 
         <Button
             android:id="@+id/bReveal"
-            android:background="#D2D3D2"
-            android:padding="10dp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#D2D3D2"
+            android:padding="10dp"
             android:text="OK" />
 
         <View
@@ -35,13 +45,12 @@
 
         <Button
             android:id="@+id/bCancel"
-            android:padding="10dp"
-            android:background="#D2D3D2"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#D2D3D2"
+            android:padding="10dp"
             android:text="Cancel" />
-
     </LinearLayout>
 
 </LinearLayout>
