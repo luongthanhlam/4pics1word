@@ -39,7 +39,7 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		OnItemClickListener {
 
 	final static int BONUS = 4, COIN_REMOVE = 80, COIN_REVEAL = 60;
-	final static boolean AllowToast = false;
+	final static boolean AllowToast = true;
 	Sound sound = new Sound();
 	GridView gv1, gv2, gv3;
 	SolutionAdapter adtSolution;
@@ -72,7 +72,8 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		String sg = pre.getString(KEY_SUGGEST, null);
 
 		listModel.addAll(Arrays.asList(gson.fromJson(sModdel, Model[].class)));
-		model = listModel.get(r.nextInt(listModel.size() - 1));
+		if (listModel.size() - 1 > 0)
+			model = listModel.get(r.nextInt(listModel.size() - 1));
 
 		if (keyword != null) {
 			listSolution.addAll(Arrays.asList(gson.fromJson(so,
@@ -231,7 +232,8 @@ public class MainActivity extends AbstractActivity implements OnClickListener,
 		}
 
 		// Load model moi
-		model = listModel.get(r.nextInt(listModel.size() - 1));
+		if (listModel.size() - 1 > 0)
+			model = listModel.get(r.nextInt(listModel.size() - 1));
 
 		// Reload lai toan bo layout
 		run();

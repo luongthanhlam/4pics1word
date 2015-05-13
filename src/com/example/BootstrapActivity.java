@@ -11,8 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 public class BootstrapActivity extends AbstractActivity{
-	Sound sound = new Sound();
-
+	protected static boolean TurnOff = false;
+	
 	@Override 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -25,11 +25,20 @@ public class BootstrapActivity extends AbstractActivity{
 			
 			@Override
 			public void onClick(View arg0) {
+				sound.destroy();
+				
 				startActivity(new Intent(getApplicationContext(), MainActivity.class));
 			}
 		});
 		
-		
+		findViewById(R.id.bSound).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				sound.destroy();
+			}
+		});
 	}
 
 	@Override
