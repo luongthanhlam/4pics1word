@@ -1,0 +1,7 @@
+#Mon Sep 25 21:25:37 ICT 2017
+base.0=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1e6b407cc128a7515c01598fc9f2fa38af2b4287
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_3587652898a3bc8d67236b4a17fa88d5bbdd3044/classes.dex
+base.1=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_3587652898a3bc8d67236b4a17fa88d5bbdd3044
+file.0=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1e6b407cc128a7515c01598fc9f2fa38af2b4287/classes.dex

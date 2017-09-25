@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/saber/Applications/android-sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_d970a21868fcdd86351b15c804e1ff66c8fed152/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/saber/Applications/android-sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0_d970a21868fcdd86351b15c804e1ff66c8fed152.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/saber/workspace/android/4pics1word1/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_1e6b407cc128a7515c01598fc9f2fa38af2b4287/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/home/saber/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/pre-dexed/debug/gson-2.3.1_3712f322b9aaf4016a2ce1813f3f43b03ac4eafc.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/saber/workspace/android/4pics1word1/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="1e72d216652f401d8043c3e518d33331c8dc2f07">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_3587652898a3bc8d67236b4a17fa88d5bbdd3044/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/saber/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3.1/ecb6e1f8e4b0e84c4b886c2f14a1500caf309757/gson-2.3.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="ecb6e1f8e4b0e84c4b886c2f14a1500caf309757">
+        <dex dex="/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3.1_3712f322b9aaf4016a2ce1813f3f43b03ac4eafc/classes.dex" />
+    </item>
+
+</items>

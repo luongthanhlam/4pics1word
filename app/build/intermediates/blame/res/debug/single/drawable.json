@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/drawable/bg_bar.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/drawable/bg_bar.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/drawable/bg_activity.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/drawable/bg_activity.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/drawable/button.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/drawable/button.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/drawable/border_suggest.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/drawable/border_suggest.xml"
+    }
+]

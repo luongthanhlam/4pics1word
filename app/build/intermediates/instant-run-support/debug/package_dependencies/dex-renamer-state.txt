@@ -1,0 +1,7 @@
+#Mon Sep 25 21:25:36 ICT 2017
+base.0=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_d970a21868fcdd86351b15c804e1ff66c8fed152
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3.1_3712f322b9aaf4016a2ce1813f3f43b03ac4eafc/classes.dex
+base.1=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.3.1_3712f322b9aaf4016a2ce1813f3f43b03ac4eafc
+file.0=/home/saber/workspace/android/4pics1word1/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_d970a21868fcdd86351b15c804e1ff66c8fed152/classes.dex

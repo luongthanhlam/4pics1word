@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/dialog_continue.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/dialog_continue.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/image_zoom.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/image_zoom.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/dialog_remove.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/dialog_remove.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/activity_bootstrap.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/activity_bootstrap.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/dialog_reveal.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/dialog_reveal.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/grid_suggest.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/grid_suggest.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/grid_image.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/grid_image.xml"
+    },
+    {
+        "merged": "/home/saber/workspace/android/4pics1word1/app/build/intermediates/res/merged/debug/layout/grid_solution.xml",
+        "source": "/home/saber/workspace/android/4pics1word1/app/src/main/res/layout/grid_solution.xml"
+    }
+]
